@@ -1,26 +1,24 @@
 const { Engine, Render, Runner, World, Bodies } = Matter;
-
 // boilerplate code related to Matter JS
 const engine = Engine.create();
 const { world } = engine;
-// telling matterjs where to draw the canvas
 const render = Render.create({
-  element: document.body, // addatvie doesnt destroy
+  element: document.body,
   engine: engine,
   options: {
-    // this is the height and width of the canvas - this will eventualy be responsive
     width: 800,
     height: 600
   }
 });
 Render.run(render);
 Runner.run(Runner.create(), engine);
+//walls
+const walls = [
+  Bodies.rectangle(400, 0, 800, 40, { isStatic: true }),
+  Bodies.rectangle(400, 600, 800, 40, { isStatic: true }),
+  Bodies.rectangle(0, 300, 40, 600, { isStatic: true }),
+  Bodies.rectangle(800, 300, 40, 600, { isStatic: true })
+];
+World.add(world, walls);
 
-///////////////////// end of boilerplate
-// create the shape
-const shape = Bodies.rectangle(200, 200, 50, 50, {
-  // postiion of rect in world and its height and width
-  isStatic: true
-});
-// draws the shape on the screen  check out the world  variable in the console - it has a lot of properties
-World.add(world, shape);
+World.add(world, Bodies.rectangle(200, 200, 50, 50));
