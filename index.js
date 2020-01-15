@@ -23,21 +23,20 @@ const walls = [
   Bodies.rectangle(width, height / 2, 40, height, { isStatic: true })
 ];
 World.add(world, walls);
-
-//Maze generation - using for loops
-// const grid = [];
-// for (let i = 0; i < 3; i++) {
-//   grid.push([]);
-//   for (let j = 0; j < 3; j++) {
-//     grid[i].push(false);
-//   }
-// }
-// console.log(grid);
-
-// Maze generation - better way using map
-// this is more scalable if later we wanted more rows and or columns can just increase the
+// Maze generation -
 const grid = Array(3) //rows
   .fill(null)
-  .map(() => Array(3).fill(false));//columns 
+  .map(() => Array(3).fill(false)); //columns
+console.log("Grid", grid);
 
-console.log(grid);
+// vertical lines
+const verticals = Array(3) //rows
+  .fill(null)
+  .map(() => Array(2).fill(false)); //columns
+console.log("Verticals", verticals);
+
+// horizontal lines
+const horizontals = Array(2) //rows
+  .fill(null)
+  .map(() => Array(3).fill(false)); //columns
+console.log("Horizontals", horizontals);
