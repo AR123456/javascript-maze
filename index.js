@@ -29,3 +29,7 @@ Runner.run(Runner.create(), engine);
 // if a neighbor has been visited before, reomove it from the list
 // for each remaiing neighbor, "move " to it and remvoe the wall between those two cells
 // repeat this for new neighbor
+// to track where there are walls or not
+/// use vertical wall and horizontal wall types   - 2 dimentional arrys for vertical and horizontal
+// boolean true no wall ,  false there is a wall
+ 
