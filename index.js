@@ -1,5 +1,7 @@
 const { Engine, Render, Runner, World, Bodies } = Matter;
 // boilerplate code related to Matter JS
+
+const cells = 3; // 3x3 grid
 const width = 600;
 const height = 600;
 const engine = Engine.create();
@@ -24,19 +26,19 @@ const walls = [
 ];
 World.add(world, walls);
 // Maze generation -
-const grid = Array(3) //rows
+const grid = Array(cells) //rows
   .fill(null)
-  .map(() => Array(3).fill(false)); //columns
+  .map(() => Array(cells).fill(false)); //columns
 console.log("Grid", grid);
 
 // vertical lines
-const verticals = Array(3) //rows
+const verticals = Array(cells) //rows
   .fill(null)
-  .map(() => Array(2).fill(false)); //columns
+  .map(() => Array(cells - 1).fill(false)); //columns
 console.log("Verticals", verticals);
 
 // horizontal lines
-const horizontals = Array(2) //rows
+const horizontals = Array(cells - 1) //rows
   .fill(null)
-  .map(() => Array(3).fill(false)); //columns
+  .map(() => Array(cells).fill(false)); //columns
 console.log("Horizontals", horizontals);
