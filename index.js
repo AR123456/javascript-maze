@@ -24,6 +24,28 @@ const walls = [
 ];
 World.add(world, walls);
 // Maze generation -
+// shuffle the neighbors function
+const shuffle = arr => {
+  // reoreder elements in array
+  // get the length of the array and set it to the variable counter
+  let counter = arr.length;
+
+  while (counter > 0) {
+    //get a random index inside of the array
+    const index = Math.floor(Math.random() * counter);
+    //decrease the counter var by one
+    counter--;
+    //swap the elements that are at the index of index with what is at  index of counter
+    // this ensures that we swap each element at least one time
+    const temp = arr[counter];
+    // update value at index of counter
+    arr[counter] = arr[index];
+    // update index to be what it was previously at counter
+    arr[index] = temp;
+  }
+  return arr;
+};
+
 const grid = Array(cells) //rows
   .fill(null)
   .map(() => Array(cells).fill(false)); //columns
@@ -49,13 +71,14 @@ const stepThroughCell = (row, column) => {
   // mark cell as visited - make true
   grid[row][column] = true;
   // assemble randomly ordered list of neighbors need the indices(corredinates ) of the neighbors
-  const neighbors = [
+  // wrap the neighbors const in the shuffle function
+  const neighbors = shuffle([
     [row - 1, column],
     [row, column + 1],
     [row + 1, column],
     [row, column - 1]
-  ];
-
+  ]);
+  console.log(neighbors);
   // for each neighbor
   // see if that neighbor is out of bounds
   // see if I have visited that neghbor , continue to next neigbhor
@@ -64,4 +87,5 @@ const stepThroughCell = (row, column) => {
   //
 };
 
-stepThroughCell(startRow, startColumn);
+stepThroughCell(1, 1); // to test the shuffle
+// stepThroughCell(startRow, startColumn);
