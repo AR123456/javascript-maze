@@ -26,21 +26,12 @@ World.add(world, walls);
 // Maze generation -
 // shuffle the neighbors function
 const shuffle = arr => {
-  // reoreder elements in array
-  // get the length of the array and set it to the variable counter
   let counter = arr.length;
-
   while (counter > 0) {
-    //get a random index inside of the array
     const index = Math.floor(Math.random() * counter);
-    //decrease the counter var by one
     counter--;
-    //swap the elements that are at the index of index with what is at  index of counter
-    // this ensures that we swap each element at least one time
     const temp = arr[counter];
-    // update value at index of counter
     arr[counter] = arr[index];
-    // update index to be what it was previously at counter
     arr[index] = temp;
   }
   return arr;
@@ -70,22 +61,36 @@ const stepThroughCell = (row, column) => {
   }
   // mark cell as visited - make true
   grid[row][column] = true;
-  // assemble randomly ordered list of neighbors need the indices(corredinates ) of the neighbors
-  // wrap the neighbors const in the shuffle function
+  // add a third element to this array to keep track of direction of travel
   const neighbors = shuffle([
-    [row - 1, column],
-    [row, column + 1],
-    [row + 1, column],
-    [row, column - 1]
+    [row - 1, column, "up"], //up
+    [row, column + 1, "right"], // to right
+    [row + 1, column, "down"], //down
+    [row, column - 1, "left"] // to left
   ]);
-  console.log(neighbors);
   // for each neighbor
-  // see if that neighbor is out of bounds
-  // see if I have visited that neghbor , continue to next neigbhor
-  //remove wall from either horizontals or verticals
+  for (let neighbor of neighbors) {
+    // destructor neighbor a bit
+    const [nextRow, nextColumn, direction] = neighbor;
+    // see if that neighbor is out of bounds using the cell const
+    if (
+      nextRow < 0 ||
+      nextRow >= cells ||
+      nextColumn < 0 ||
+      nextColumn >= cells
+    ) {
+      //continue the for loop if any of this is true but do not do anything
+      continue;
+    }
+    // see if I have visited that neghbor , continue to next neigbhor
+    // using grid to keep track of visits so
+    if (grid[nextRow][nextColumn]) {
+      continue;
+    }
+    //remove wall from either horizontals or verticals are we going up or down, left or right
+  }
   // visit next cell
   //
 };
 
-stepThroughCell(1, 1); // to test the shuffle
-// stepThroughCell(startRow, startColumn);
+stepThroughCell(startRow, startColumn);
