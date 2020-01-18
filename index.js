@@ -61,36 +61,45 @@ const stepThroughCell = (row, column) => {
   }
   // mark cell as visited - make true
   grid[row][column] = true;
-  // add a third element to this array to keep track of direction of travel
+
   const neighbors = shuffle([
-    [row - 1, column, "up"], //up
-    [row, column + 1, "right"], // to right
-    [row + 1, column, "down"], //down
-    [row, column - 1, "left"] // to left
+    [row - 1, column, "up"],
+    [row, column + 1, "right"],
+    [row + 1, column, "down"],
+    [row, column - 1, "left"]
   ]);
   // for each neighbor
   for (let neighbor of neighbors) {
-    // destructor neighbor a bit
     const [nextRow, nextColumn, direction] = neighbor;
-    // see if that neighbor is out of bounds using the cell const
+    // see if that neighbor is out of bounds
     if (
       nextRow < 0 ||
       nextRow >= cells ||
       nextColumn < 0 ||
       nextColumn >= cells
     ) {
-      //continue the for loop if any of this is true but do not do anything
       continue;
     }
-    // see if I have visited that neghbor , continue to next neigbhor
-    // using grid to keep track of visits so
     if (grid[nextRow][nextColumn]) {
       continue;
     }
     //remove wall from either horizontals or verticals are we going up or down, left or right
+    if (direction === "left") {
+      verticals[row][column - 1] = true;
+    } else if (direction === "right") {
+      verticals[row][column] = true;
+    }
+    console.log(verticals);
+    // if (direction === "down") {
+    //   horizontals[column][row - 1] = true;
+    // }
+    // if (direction === "up") {
+    //   horizontals[column][row] = true;
+    // }
   }
   // visit next cell
   //
 };
 
-stepThroughCell(startRow, startColumn);
+stepThroughCell(1, 1);// for testing 
+// stepThroughCell(startRow, startColumn);
