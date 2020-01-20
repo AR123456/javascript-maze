@@ -2,6 +2,9 @@ const { Engine, Render, Runner, World, Bodies } = Matter;
 const cells = 3; // 3x3 grid
 const width = 600;
 const height = 600;
+
+const unitLength = width / cells;
+
 const engine = Engine.create();
 const { world } = engine;
 const render = Render.create({
@@ -105,15 +108,27 @@ stepThroughCell(startRow, startColumn);
 //itterate over all the verticals and horizantals and for every false value draw a rectangle onto the canvas
 // will use a for each for this.
 // becasue horizontals is a 2 dimentinaol array so when using forEach will get one of the inner arrays- here called row
-horizontals.forEach(row => {
+horizontals.forEach((row, rowIndex) => {
   // for each value in row that is = true(open) there is no need to draw a wall
-  row.forEach(open => {
+  row.forEach((open, columnIndex) => {
     if (open) {
       return;
     }
     // if false draw a rectancle or wall
+
     const wall = Bodies.rectangle(
-    //
+      // for the x direction
+      columnIndex * unitLength + unitLength / 2,
+      // for the y direction
+      rowIndex * unitLength + unitLength,
+      //width
+      unitLength,
+      // height
+      10,
+      {
+        isStatic: true
+      }
     );
+    World.add(world, wall);
   });
 });
