@@ -93,13 +93,27 @@ const stepThroughCell = (row, column) => {
     } else if (direction === "down") {
       horizontals[row][column] = true;
     }
-    // recursion
+    // recursion visit next cell
+
     stepThroughCell(nextRow, nextColumn);
-    console.log(verticals, horizontals);
+    // console.log(verticals, horizontals);
   }
-  // visit next cell
-  //
 };
 
-// stepThroughCell(1, 1); // for testing
 stepThroughCell(startRow, startColumn);
+/// will use rectangles to render maze cells to canvas
+//itterate over all the verticals and horizantals and for every false value draw a rectangle onto the canvas
+// will use a for each for this.
+// becasue horizontals is a 2 dimentinaol array so when using forEach will get one of the inner arrays- here called row
+horizontals.forEach(row => {
+  // for each value in row that is = true(open) there is no need to draw a wall
+  row.forEach(open => {
+    if (open) {
+      return;
+    }
+    // if false draw a rectancle or wall
+    const wall = Bodies.rectangle(
+    //
+    );
+  });
+});
