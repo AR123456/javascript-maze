@@ -63,10 +63,10 @@ const stepThroughCell = (row, column) => {
   grid[row][column] = true;
 
   const neighbors = shuffle([
-    // [row - 1, column, "up"]
-    // [row, column + 1, "right"],
-    [row + 1, column, "down"]
-    // [row, column - 1, "left"]
+    [row - 1, column, "up"],
+    [row, column + 1, "right"],
+    [row + 1, column, "down"],
+    [row, column - 1, "left"]
   ]);
   // for each neighbor
   for (let neighbor of neighbors) {
@@ -93,11 +93,13 @@ const stepThroughCell = (row, column) => {
     } else if (direction === "down") {
       horizontals[row][column] = true;
     }
-    console.log(horizontals);
+    // recursion
+    stepThroughCell(nextRow, nextColumn);
+    console.log(verticals, horizontals);
   }
   // visit next cell
   //
 };
 
-stepThroughCell(1, 1); // for testing
-// stepThroughCell(startRow, startColumn);
+// stepThroughCell(1, 1); // for testing
+stepThroughCell(startRow, startColumn);
