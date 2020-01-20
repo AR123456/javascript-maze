@@ -132,3 +132,28 @@ horizontals.forEach((row, rowIndex) => {
     World.add(world, wall);
   });
 });
+// getting row and rowIndex
+verticals.forEach((row, rowIndex) => {
+  // get the boolian for open or closed and the columnIndex of the one we are working on
+  row.forEach((open, columnIndex) => {
+    if (open) {
+      return;
+    }
+    //create the wall
+    const wall = Bodies.rectangle(
+      //x
+      columnIndex * unitLength + unitLength,
+      // y
+      rowIndex * unitLength + unitLength / 2,
+      //width
+      10,
+      // height
+      unitLength,
+      // is static
+      {
+        isStatic: true
+      }
+    );
+    World.add(world, wall);
+  });
+});
