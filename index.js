@@ -1,4 +1,4 @@
-const { Engine, Render, Runner, World, Bodies } = Matter;
+const { Engine, Render, Runner, World, Bodies, Body } = Matter;
 const cells = 10; // 3x3 grid
 const width = 600;
 const height = 600;
@@ -176,16 +176,21 @@ const ball = Bodies.circle(
 World.add(world, ball);
 // add event listener
 document.addEventListener("keydown", event => {
+  const { x, y } = ball.velocity;
+  // change movement of ball with key press
+  // // check veloscity of ball and update - there is a velocity of x and y corresponding to movment on that axis
+  // console.log(x, y);
   if (event.keyCode === 87) {
-    console.log("move ball up ");
+    // y moves up down -5 moves up and with each pres of w the velocity increases by 5
+    Body.setVelocity(ball, { x, y: y - 5 });
   }
   if (event.keyCode === 68) {
-    console.log("move ball right ");
+    Body.setVelocity(ball, { x: x + 5, y });
   }
   if (event.keyCode === 83) {
-    console.log("move ball down ");
+    Body.setVelocity(ball, { x, y: y + 5 });
   }
   if (event.keyCode === 65) {
-    console.log("move ball left");
+    Body.setVelocity(ball, { x: x - 5, y });
   }
 });
