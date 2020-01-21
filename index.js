@@ -1,5 +1,5 @@
 const { Engine, Render, Runner, World, Bodies } = Matter;
-const cells = 3; // 3x3 grid
+const cells = 10; // 3x3 grid
 const width = 600;
 const height = 600;
 
@@ -20,10 +20,10 @@ Render.run(render);
 Runner.run(Runner.create(), engine);
 //walls
 const walls = [
-  Bodies.rectangle(width / 2, 0, width, 40, { isStatic: true }),
-  Bodies.rectangle(width / 2, height, width, 40, { isStatic: true }),
-  Bodies.rectangle(0, height / 2, 40, height, { isStatic: true }),
-  Bodies.rectangle(width, height / 2, 40, height, { isStatic: true })
+  Bodies.rectangle(width / 2, 0, width, 2, { isStatic: true }),
+  Bodies.rectangle(width / 2, height, width, 2, { isStatic: true }),
+  Bodies.rectangle(0, height / 2, 2, height, { isStatic: true }),
+  Bodies.rectangle(width, height / 2, 2, height, { isStatic: true })
 ];
 World.add(world, walls);
 // Maze generation -
@@ -99,32 +99,25 @@ const stepThroughCell = (row, column) => {
     // recursion visit next cell
 
     stepThroughCell(nextRow, nextColumn);
-    // console.log(verticals, horizontals);
   }
 };
 
 stepThroughCell(startRow, startColumn);
-/// will use rectangles to render maze cells to canvas
-//itterate over all the verticals and horizantals and for every false value draw a rectangle onto the canvas
-// will use a for each for this.
-// becasue horizontals is a 2 dimentinaol array so when using forEach will get one of the inner arrays- here called row
+
 horizontals.forEach((row, rowIndex) => {
-  // for each value in row that is = true(open) there is no need to draw a wall
   row.forEach((open, columnIndex) => {
     if (open) {
       return;
     }
-    // if false draw a rectancle or wall
-
     const wall = Bodies.rectangle(
-      // for the x direction
+      // x
       columnIndex * unitLength + unitLength / 2,
-      // for the y direction
+      // y
       rowIndex * unitLength + unitLength,
       //width
       unitLength,
       // height
-      10,
+      5,
       {
         isStatic: true
       }
@@ -132,9 +125,7 @@ horizontals.forEach((row, rowIndex) => {
     World.add(world, wall);
   });
 });
-// getting row and rowIndex
 verticals.forEach((row, rowIndex) => {
-  // get the boolian for open or closed and the columnIndex of the one we are working on
   row.forEach((open, columnIndex) => {
     if (open) {
       return;
@@ -146,7 +137,7 @@ verticals.forEach((row, rowIndex) => {
       // y
       rowIndex * unitLength + unitLength / 2,
       //width
-      10,
+      5,
       // height
       unitLength,
       // is static
@@ -157,3 +148,19 @@ verticals.forEach((row, rowIndex) => {
     World.add(world, wall);
   });
 });
+
+// draw goal
+const goal = Bodies.rectangle(
+  //x
+  width - unitLength / 2,
+  //y
+  height - unitLength / 2,
+  //height 70% of the size of the cell
+  unitLength * 0.7,
+  //width
+  unitLength * 0.7,
+  {
+    isStatic: true
+  }
+);
+World.add(world, goal);
