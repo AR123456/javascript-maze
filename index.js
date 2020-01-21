@@ -164,3 +164,13 @@ const goal = Bodies.rectangle(
   }
 );
 World.add(world, goal);
+// draw the ball
+const ball = Bodies.circle(
+  // x
+  unitLength / 2,
+  //y
+  unitLength / 2,
+  //radius of ball
+  unitLength / 4
+);
+World.add(world, ball);
