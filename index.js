@@ -1,5 +1,5 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
-const cells = 3; // 3x3 grid
+const cells = 6; // 3x3 grid
 const width = 600;
 const height = 600;
 
@@ -121,6 +121,8 @@ horizontals.forEach((row, rowIndex) => {
       // height
       5,
       {
+        // adding label of wall for win annimation
+        label: "wall",
         isStatic: true
       }
     );
@@ -144,6 +146,8 @@ verticals.forEach((row, rowIndex) => {
       unitLength,
       // is static
       {
+        // adding label of wall for win annimation
+        label: "wall",
         isStatic: true
       }
     );
@@ -211,7 +215,16 @@ Events.on(engine, "collisionStart", event => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.label)
     ) {
-      console.log("win!");
+      // console.log("win!");
+      // with win co/lapse all the parts of the game
+      //turn gravity back on
+      world.gravity.y = 1;
+      // loop over walls and remove the static flag - add a label of vertical and horizontal wall above, update is static to false
+      world.bodies.forEach(body => {
+        if (body.label === "wall") {
+          Body.setStatic(body, false);
+        }
+      });
     }
   });
 });
