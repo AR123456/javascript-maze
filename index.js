@@ -1,4 +1,4 @@
-const { Engine, Render, Runner, World, Bodies, Body } = Matter;
+const { Engine, Render, Runner, World, Bodies } = Matter;
 const cells = 10; // 3x3 grid
 const width = 600;
 const height = 600;
@@ -6,8 +6,6 @@ const height = 600;
 const unitLength = width / cells;
 
 const engine = Engine.create();
-// this disables gravity
-engine.world.gravity.y = 0;
 const { world } = engine;
 const render = Render.create({
   element: document.body,
@@ -166,30 +164,3 @@ const goal = Bodies.rectangle(
   }
 );
 World.add(world, goal);
-// draw the ball
-const ball = Bodies.circle(
-  // x
-  unitLength / 2,
-  //y
-  unitLength / 2,
-  //radius of ball
-  unitLength / 4
-);
-World.add(world, ball);
-// add event listener
-document.addEventListener("keydown", event => {
-  const { x, y } = ball.velocity;
-  if (event.keyCode === 87) {
-    // change movement of ball with key press
-    Body.setVelocity(ball, { x, y: y - 5 });
-  }
-  if (event.keyCode === 68) {
-    Body.setVelocity(ball, { x: x + 5, y });
-  }
-  if (event.keyCode === 83) {
-    Body.setVelocity(ball, { x, y: y + 5 });
-  }
-  if (event.keyCode === 65) {
-    Body.setVelocity(ball, { x: x - 5, y });
-  }
-});
