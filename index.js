@@ -6,6 +6,8 @@ const height = 600;
 const unitLength = width / cells;
 
 const engine = Engine.create();
+// this disables gravity
+engine.world.gravity.y = 0;
 const { world } = engine;
 const render = Render.create({
   element: document.body,
@@ -177,11 +179,8 @@ World.add(world, ball);
 // add event listener
 document.addEventListener("keydown", event => {
   const { x, y } = ball.velocity;
-  // change movement of ball with key press
-  // // check veloscity of ball and update - there is a velocity of x and y corresponding to movment on that axis
-  // console.log(x, y);
   if (event.keyCode === 87) {
-    // y moves up down -5 moves up and with each pres of w the velocity increases by 5
+    // change movement of ball with key press
     Body.setVelocity(ball, { x, y: y - 5 });
   }
   if (event.keyCode === 68) {
