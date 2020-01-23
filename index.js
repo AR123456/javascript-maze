@@ -17,7 +17,8 @@ const render = Render.create({
   element: document.body,
   engine: engine,
   options: {
-    wireframes: true,
+    // wireframes: true,// change to false to add color
+    wireframes: false,
     width,
     height
   }
@@ -127,7 +128,11 @@ horizontals.forEach((row, rowIndex) => {
       {
         // adding label of wall for win annimation
         label: "wall",
-        isStatic: true
+        isStatic: true,
+        // to add color
+        render: {
+          fillStyle: "red"
+        }
       }
     );
     World.add(world, wall);
@@ -152,7 +157,11 @@ verticals.forEach((row, rowIndex) => {
       {
         // adding label of wall for win annimation
         label: "wall",
-        isStatic: true
+        isStatic: true,
+        // to add color
+        render: {
+          fillStyle: "red"
+        }
       }
     );
     World.add(world, wall);
@@ -173,7 +182,11 @@ const goal = Bodies.rectangle(
   {
     // label for collision detection
     label: "goal",
-    isStatic: true
+    isStatic: true,
+    // for color
+    render: {
+      fillStyle: "green"
+    }
   }
 );
 World.add(world, goal);
@@ -189,7 +202,11 @@ const ball = Bodies.circle(
   ballRadius,
   // label it bal for collision detection
   {
-    label: "ball"
+    label: "ball",
+    // for color
+    render: {
+      fillStyle: "blue"
+    }
   }
 );
 World.add(world, ball);
