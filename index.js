@@ -1,14 +1,13 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
 // const cells = 6; // 3x3 grid
-const cellsHorizontal = 4;
-const cellsVertical = 3;
+const cellsHorizontal = 14;
+const cellsVertical = 10;
 // now using window
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// const unitLength = width / cells;
 const unitLengthX = width / cellsHorizontal;
-const unitLengthY = height / cellsVerical;
+const unitLengthY = height / cellsVertical;
 
 const engine = Engine.create();
 // this disables gravity
@@ -18,7 +17,7 @@ const render = Render.create({
   element: document.body,
   engine: engine,
   options: {
-    wierframes: true,
+    wireframes: true,
     width,
     height
   }
@@ -47,21 +46,21 @@ const shuffle = arr => {
   return arr;
 };
 
-const grid = Array(cells) //rows
+const grid = Array(cellsVertical) //rows
   .fill(null)
-  .map(() => Array(cells).fill(false)); //columns
+  .map(() => Array(cellsHorizontal).fill(false)); //columns
 
 // vertical lines
-const verticals = Array(cells) //rows
+const verticals = Array(cellsVertical) //rows
   .fill(null)
-  .map(() => Array(cells - 1).fill(false)); //columns
+  .map(() => Array(cellsHorizontal - 1).fill(false)); //columns
 
 // horizontal lines
-const horizontals = Array(cells - 1) //rows
+const horizontals = Array(cellsVertical - 1) //rows
   .fill(null)
-  .map(() => Array(cells).fill(false)); //columns
-const startRow = Math.floor(Math.random() * cells);
-const startColumn = Math.floor(Math.random() * cells);
+  .map(() => Array(cellsHorizontal).fill(false)); //columns
+const startRow = Math.floor(Math.random() * cellsVertical); //row
+const startColumn = Math.floor(Math.random() * cellsHorizontal); // column
 
 // function to generate grid
 const stepThroughCell = (row, column) => {
@@ -84,9 +83,9 @@ const stepThroughCell = (row, column) => {
     // see if that neighbor is out of bounds
     if (
       nextRow < 0 ||
-      nextRow >= cells ||
+      nextRow >= cellsVertical ||
       nextColumn < 0 ||
-      nextColumn >= cells
+      nextColumn >= cellsHorizontal
     ) {
       continue;
     }
@@ -118,11 +117,11 @@ horizontals.forEach((row, rowIndex) => {
     }
     const wall = Bodies.rectangle(
       // x
-      columnIndex * unitLength + unitLength / 2,
+      columnIndex * unitLengthX + unitLengthX / 2, // center point in x direction
       // y
-      rowIndex * unitLength + unitLength,
-      //width
-      unitLength,
+      rowIndex * unitLengthY + unitLengthY, // center point in y direction
+      //width x direction
+      unitLengthX,
       // height
       5,
       {
@@ -142,13 +141,13 @@ verticals.forEach((row, rowIndex) => {
     //create the wall
     const wall = Bodies.rectangle(
       //x
-      columnIndex * unitLength + unitLength,
+      columnIndex * unitLengthX + unitLengthX, // center point in x direction
       // y
-      rowIndex * unitLength + unitLength / 2,
+      rowIndex * unitLengthY + unitLengthY / 2, // center point in y direction
       //width
       5,
       // height
-      unitLength,
+      unitLengthY, // center point in y direction(vertical)
       // is static
       {
         // adding label of wall for win annimation
@@ -163,13 +162,14 @@ verticals.forEach((row, rowIndex) => {
 // draw goal
 const goal = Bodies.rectangle(
   //x
-  width - unitLength / 2,
+  width - unitLengthX / 2,
   //y
-  height - unitLength / 2,
-  //height 70% of the size of the cell
-  unitLength * 0.7,
+  height - unitLengthY / 2,
   //width
-  unitLength * 0.7,
+  unitLengthY * 0.7,
+  //height 70% of the size of the cell
+  unitLengthX * 0.7,
+
   {
     // label for collision detection
     label: "goal",
@@ -178,13 +178,15 @@ const goal = Bodies.rectangle(
 );
 World.add(world, goal);
 // draw the ball
+// taking the minumum of unit length of eiter s or y / 4
+const ballRadius = Math.min(unitLengthX, unitLengthY) / 4;
 const ball = Bodies.circle(
   // x
-  unitLength / 2,
+  unitLengthX / 2,
   //y
-  unitLength / 2,
+  unitLengthY / 2,
   //radius of ball
-  unitLength / 4,
+  ballRadius,
   // label it bal for collision detection
   {
     label: "ball"
@@ -208,23 +210,15 @@ document.addEventListener("keydown", event => {
     Body.setVelocity(ball, { x: x - 5, y });
   }
 });
-// Win
+// Win -
 Events.on(engine, "collisionStart", event => {
-  // the event object gets reused by matterjs, so it keeps getting reset and removed
-  //
   event.pairs.forEach(collision => {
-    // using this array for coparison for code efficiency
     const labels = ["ball", "goal"];
-
     if (
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.label)
     ) {
-      // console.log("win!");
-      // with win co/lapse all the parts of the game
-      //turn gravity back on
       world.gravity.y = 1;
-      // loop over walls and remove the static flag - add a label of vertical and horizontal wall above, update is static to false
       world.bodies.forEach(body => {
         if (body.label === "wall") {
           Body.setStatic(body, false);
