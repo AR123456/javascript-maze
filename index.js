@@ -1,11 +1,14 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
-const cells = 6; // 3x3 grid
-// const width = 600;
-// const height = 600;
+// const cells = 6; // 3x3 grid
+const cellsHorizontal = 4;
+const cellsVertical = 3;
+// now using window
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-const unitLength = width / cells;
+// const unitLength = width / cells;
+const unitLengthX = width / cellsHorizontal;
+const unitLengthY = height / cellsVerical;
 
 const engine = Engine.create();
 // this disables gravity
