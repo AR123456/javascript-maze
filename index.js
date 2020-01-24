@@ -210,20 +210,41 @@ const ball = Bodies.circle(
   }
 );
 World.add(world, ball);
-// add event listener
+// add event listener - letters
+// document.addEventListener("keydown", event => {
+//   const { x, y } = ball.velocity;
+//   if (event.keyCode === 87) {
+//     // change movement of ball with key press
+//     Body.setVelocity(ball, { x, y: y - 5 });
+//   }
+//   if (event.keyCode === 68) {
+//     Body.setVelocity(ball, { x: x + 5, y });
+//   }
+//   if (event.keyCode === 83) {
+//     Body.setVelocity(ball, { x, y: y + 5 });
+//   }
+//   if (event.keyCode === 65) {
+//     Body.setVelocity(ball, { x: x - 5, y });
+//   }
+// });
+// using arrow keys
 document.addEventListener("keydown", event => {
   const { x, y } = ball.velocity;
-  if (event.keyCode === 87) {
+  // up
+  if (event.keyCode === 38) {
     // change movement of ball with key press
     Body.setVelocity(ball, { x, y: y - 5 });
   }
-  if (event.keyCode === 68) {
+  //right
+  if (event.keyCode === 39) {
     Body.setVelocity(ball, { x: x + 5, y });
   }
-  if (event.keyCode === 83) {
+  //down
+  if (event.keyCode === 40) {
     Body.setVelocity(ball, { x, y: y + 5 });
+    //left
   }
-  if (event.keyCode === 65) {
+  if (event.keyCode === 37) {
     Body.setVelocity(ball, { x: x - 5, y });
   }
 });
