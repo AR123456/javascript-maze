@@ -1,7 +1,17 @@
-const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
+const {
+  Engine,
+  Render,
+  Runner,
+  World,
+  Bodies,
+  Body,
+  Events,
+  MouseConstraint,
+  Mouse
+} = Matter;
 
-const cellsHorizontal = 4;
-const cellsVertical = 3;
+const cellsHorizontal = 8;
+const cellsVertical = 6;
 // now using window
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -25,6 +35,12 @@ const render = Render.create({
 });
 Render.run(render);
 Runner.run(Runner.create(), engine);
+World.add(
+  world,
+  MouseConstraint.create(engine, {
+    mouse: Mouse.create(render.canvas)
+  })
+);
 //walls
 const walls = [
   Bodies.rectangle(width / 2, 0, width, 2, { isStatic: true }),
@@ -210,23 +226,7 @@ const ball = Bodies.circle(
   }
 );
 World.add(world, ball);
-// add event listener - letters
-// document.addEventListener("keydown", event => {
-//   const { x, y } = ball.velocity;
-//   if (event.keyCode === 87) {
-//     // change movement of ball with key press
-//     Body.setVelocity(ball, { x, y: y - 5 });
-//   }
-//   if (event.keyCode === 68) {
-//     Body.setVelocity(ball, { x: x + 5, y });
-//   }
-//   if (event.keyCode === 83) {
-//     Body.setVelocity(ball, { x, y: y + 5 });
-//   }
-//   if (event.keyCode === 65) {
-//     Body.setVelocity(ball, { x: x - 5, y });
-//   }
-// });
+
 // using arrow keys
 document.addEventListener("keydown", event => {
   const { x, y } = ball.velocity;
